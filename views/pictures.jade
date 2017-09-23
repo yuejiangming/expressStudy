@@ -1,0 +1,17 @@
+div
+  a(href="/file/1") 文件1
+div
+  a(href="/file/2") 文件2
+div
+  a(href="/file/3") 文件3
+div
+  a(href="/file/4") 文件4
+div
+  a(href="/file/5") 文件5
+div
+  a(href="/file/6") 文件6
+
+div 上传表单
+form(method="post" enctype="multipart/form-data" action="/upload")
+  input(type="file" name="pic")
+  button(type="submit") 提交
