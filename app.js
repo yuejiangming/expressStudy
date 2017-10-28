@@ -5,10 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
 var index = require('./routes/index');
 var users = require('./routes/users');
-
 var app = express();
 
 // view engine setup
@@ -20,12 +18,13 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'haha'), {
+app.use(express.static(path.join(__dirname, 'public'), {
   lastModified: true,
 }));
 
-app.use(cookieParser('my magic world'));
-app.use(session());
+app.use('/scripts', express.static(path.join(__dirname, 'node_modules')));
+
+app.use(cookieParser('my magic '));
 
 app.use('/', index);
 app.use('/users', users);
@@ -47,5 +46,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
