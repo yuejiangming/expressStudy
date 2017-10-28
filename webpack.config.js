@@ -40,6 +40,7 @@ const config = {
     new ExtractTextPlugin("[name]/style.css"),
     new webpack.ProvidePlugin({
       $: 'jquery',
+      axios: 'axios',
     }),
   ],
 };
