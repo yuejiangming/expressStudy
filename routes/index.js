@@ -96,5 +96,9 @@ router.get('/first', function(req, res) {
   res.render('first');
 });
 
+router.get('/second', (req, res) => {
+  res.render('second');
+});
+
 
 module.exports = router;

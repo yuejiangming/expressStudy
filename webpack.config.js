@@ -1,23 +1,42 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebapckPugPlugin = require('html-webpack-pug-plugin');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let HtmlWebapckPugPlugin = require('html-webpack-pug-plugin');
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let WebpackGenerator = require('./webpack.generator');
+
+let generator = new WebpackGenerator();
+
+generator.pluginSet;
+
 
 const config = {
-  entry: {
-    first: './pages/first/app.js',
-    second: './pages/first/app.js',
-  },
+  entry: generator.entry,
   output: {
     filename: '[name]/[name].js',
     path: __dirname + '/dist',
+    publicPath: '/'
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader'],
+        }),
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015'],
+        },
+      },
+    ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filetype: 'pug',
-      filename: '../views/first.pug',
-      template: './pages/first/first.pug',
-      excludeChunks: ['first'],
-    }),
+    ...generator.pluginSet,
     new HtmlWebapckPugPlugin(),
+    new ExtractTextPlugin("[name]/style.css"),
   ],
 };
 

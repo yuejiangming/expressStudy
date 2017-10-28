@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
@@ -65,9 +65,39 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(1);
+
+__webpack_require__(2);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var acd = [112, 2223, 445, 778];
+var obj = {
+  a: 5,
+  b: 6,
+  c: 7
+};
+
+var a = obj.a;
+
+console.log(a);
+alert('希望的第一个原野');
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
-alert('app1');
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
