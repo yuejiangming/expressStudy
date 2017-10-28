@@ -1,3 +1,4 @@
+let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let HtmlWebapckPugPlugin = require('html-webpack-pug-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -37,6 +38,9 @@ const config = {
     ...generator.pluginSet,
     new HtmlWebapckPugPlugin(),
     new ExtractTextPlugin("[name]/style.css"),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+    }),
   ],
 };
 
