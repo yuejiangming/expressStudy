@@ -9,3 +9,4 @@ import ModelClass from 'npm-test-yuejiangming';
   $('.get').html('gagaga');
 
 
+//1
