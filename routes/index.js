@@ -6,6 +6,30 @@ var multer = require('multer');
 var cookieParser = require('cookie-parser');
 var pool = require('../mysql-config');
 
+var redis = require('redis'),
+    client = redis.createClient();
+
+var winston = require('winston');
+
+const myFormat = winston.format.printf(info => {
+  return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
+});
+
+
+var logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.label({ label: 'right meow!' }),
+    winston.format.timestamp(),
+    myFormat
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'iminaku.log', level: 'info'}), 
+  ]
+});
+
+console.log('为啥啊')
+
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'haha')
@@ -19,11 +43,6 @@ var upload = multer({
   storage: storage,
 });
 
-
-// 大型文件的上传/下载
-router.get('/pictures', function(req, res, next) {
-  res.render('pictures');
-});
 
 /* GET home page. */
 router.get('/file/:fileName', function(req, res, next) {
@@ -98,6 +117,53 @@ router.get('/first', function(req, res) {
 
 router.get('/second', (req, res) => {
   res.render('second');
+});
+
+// ------
+// 大型文件的上传/下载
+router.get('/commonUpload', (req, res) => {
+  res.render('common-upload');
+});
+
+router.post('/uploadFile', upload.single('file'), (req, res) => {
+  res.status(200).json({
+    data: 'success',
+    route: '/image/' + req.file.filename,
+  });
+});
+
+router.get('/redis', (req, res) => {
+  var obj = {
+    a: 1,
+    b: {
+      c: 3,
+      d: 4,
+    },
+  };
+
+  console.log(client.hmset('keytest', obj));
+
+  client.hgetall('keytest', (err, res) => {
+
+  });
+
+  res.send('结束');
+});
+
+router.get('/promise', (req, res) => {
+  var defer = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(res);      
+    }, 4000);
+  });
+
+  var defer2 = new Promise((resolve, reject) => {
+    resolve(res);
+  });
+
+  Promise.all([defer, defer2]).then((resArr) => {
+    resArr[0].send('delayed ttt');
+  });
 });
 
 

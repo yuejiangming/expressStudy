@@ -20,6 +20,8 @@ app.use(express.static(path.join(__dirname, '/dist'), {
   lastModified: true,
 }));
 
+app.use('/image', express.static(path.join(__dirname, '/haha')));
+
 app.use(cookieParser('my magic '));
 
 app.use('/', index);
