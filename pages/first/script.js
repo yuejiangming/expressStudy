@@ -9,6 +9,9 @@ import ModelClass from 'npm-test-yuejiangming';
   $('.get').html('gagaga');
 
 
+<<<<<<< HEAD
 //1
 //2
 //3
+=======
+>>>>>>> parent of b93fbd2... 1111
