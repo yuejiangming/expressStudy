@@ -1,6 +1,13 @@
 import ModelClass from 'npm-test-yuejiangming';
 
-console.log('岳江是明', new ModelClass());
 //1
 //2
 //3
+
+  let {a} = obj;
+  console.log(a)
+  alert('希望的第一个原野')
+
+  $('.get').html('gagaga');
+
+
