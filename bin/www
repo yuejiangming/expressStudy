@@ -20,7 +20,7 @@ app.set('port', port);
  */
 
 
-
+// bit map
 
 
 var server = http.createServer(app);
