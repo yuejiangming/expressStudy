@@ -64,6 +64,7 @@ router.get('/setCookie', function(req, res) {
   res.send('xxx');
 });
 // 修改2
+// 添加注释1
 router.get('/attachment', function(req, res) {
   res.type(path.join(__dirname, '../public/images/1.jpg'));
   res.attachment('2.jpg');
