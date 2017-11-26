@@ -5,13 +5,22 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
+
 var index = require('./routes/index');
 var users = require('./routes/users');
+var other = require('./routes/other');
+
 var app = express();
+var router = express.router;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+
+app.use(cookieParser(['str', 'yue', 'key', 'offcoure']));
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -20,12 +29,28 @@ app.use(express.static(path.join(__dirname, '/dist'), {
   lastModified: true,
 }));
 
+app.use(session({
+  secret: ['str', 'yue', 'key', 'offcoure'],  
+  store: new RedisStore(),
+}));
+
 app.use('/image', express.static(path.join(__dirname, '/haha')));
 
-app.use(cookieParser('my magic '));
+
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/', other);
+
+app.use(function(err, req, res, next) {
+  console.log(err);
+})
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -44,7 +69,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 
 module.exports = app;

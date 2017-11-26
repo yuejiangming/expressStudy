@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 html(lang="en")
   head
     meta(charset="UTF-8")
@@ -6,7 +5,7 @@ html(lang="en")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title Document
   body
-    button.upload-button 点我上传
-    button.terminate 点我中止
-    input.file(type="file" style="display:none")
-    .picContainer
+    form(method="get" action="/loadin")
+      input(type="text" name="username")
+      input(type="text" name="password")
+      input(type="submit" value="提交")

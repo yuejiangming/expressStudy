@@ -6,7 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "~1.17.1",
+    "connect-redis": "^3.3.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "es6-promise": "^4.1.1",
@@ -16,8 +18,10 @@
     "morgan": "~1.8.1",
     "multer": "^1.3.0",
     "mysql": "^2.15.0",
+    "mysql2": "^1.5.1",
     "npm-test-yuejiangming": "^1.0.0",
     "redis": "^2.8.0",
+    "sequelize": "^4.22.15",
     "serve-favicon": "~2.4.2",
     "winston": "^3.0.0-rc1"
   },

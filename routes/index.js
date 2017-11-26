@@ -6,29 +6,26 @@ var multer = require('multer');
 var cookieParser = require('cookie-parser');
 var pool = require('../mysql-config');
 
-var redis = require('redis'),
-    client = redis.createClient();
-
 var winston = require('winston');
 
-const myFormat = winston.format.printf(info => {
-  return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
-});
+var examMark = require('../dataConfig/examMark');
+
+const Sequelize = require('sequelize');
+
+const loadController = require('../controllers/LoadController');
+
+const User = require('../dataConfig/user');
+const Eraser = require('../dataConfig/eraser');
 
 
-var logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.label({ label: 'right meow!' }),
-    winston.format.timestamp(),
-    myFormat
-  ),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'iminaku.log', level: 'info'}), 
-  ]
-});
 
-console.log('为啥啊')
+
+examMark.create({
+  subjectName: '地理',
+  mark: '56',
+  person: '小红'
+})
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -132,24 +129,6 @@ router.post('/uploadFile', upload.single('file'), (req, res) => {
   });
 });
 
-router.get('/redis', (req, res) => {
-  var obj = {
-    a: 1,
-    b: {
-      c: 3,
-      d: 4,
-    },
-  };
-
-  console.log(client.hmset('keytest', obj));
-
-  client.hgetall('keytest', (err, res) => {
-
-  });
-
-  res.send('结束');
-});
-
 router.get('/promise', (req, res) => {
   var defer = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -166,5 +145,69 @@ router.get('/promise', (req, res) => {
   });
 });
 
+router.get('/cookieTest', function(req, res) {
+  res.cookie('dashabi', 'haoahaoa', {
+    signed: true,
+  })
+  res.send(req.signedCookies.dashabi);
+});
+
+// router.get('/load', function(req, res) {
+//   console.log('为啥呢')
+//   res.render('loadin')
+// })
+
+// router.get('/loadin', function(req, res) {
+  
+
+//   let userName = req.query.username;
+//   let password = req.query.password;
+
+
+//   User.findOne({
+//     where: {
+//       userName: userName,
+//     }
+//   }).then(user => {
+//     if (user.getDataValue('password') === password) {
+//       res.send('登陆成功');
+//     } else {
+//       res.send('登录失败');
+//     }
+//   })
+// });
+
+router.get('/one', function(req, res) {
+  req.session.objTest = {
+    key1: 'hahaha',
+    key2: {
+      key3: {
+        key4: 'kakakka',
+        key5: 'coconatsu',
+      }
+    },
+  };
+  res.send('<a href="/two">click me</a>');
+});
+
+router.get('/two', function(req, res) {
+  console.log('para', req.session.para);
+  res.send(req.session.para);
+});
+
+
+router.get('/register', loadController.register);
+router.post('/register', loadController.registerSolve);
+router.get('/load', loadController.load);
+router.post('/load', loadController.loadSolve);
+router.get('/eraser', function(req, res) {
+  User.findAll()
+    .then(users => {
+      res.send(users);
+    })
+});
 
 module.exports = router;
+
+// do you want to say something like that?
+// not your dimension
